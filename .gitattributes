@@ -1,5 +1,5 @@
 * text=auto eol=lf
-data/HF.* -text
+data/HF.* binary
 *.png binary
 *.prg binary
 *.d64 binary

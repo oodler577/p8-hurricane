@@ -12,6 +12,8 @@ my $root;
 my $runs=0;
 
 sub require_emulator {
+    BAIL_OUT(q(invalid VICE_VIDEO)) unless ($ENV{VICE_VIDEO}//q(pal)) =~ /\A(?:pal|ntsc)\z/;
+    BAIL_OUT(q(invalid VICE_DRIVE)) unless ($ENV{VICE_DRIVE}//q(filesystem)) =~ /\A(?:filesystem|1541)\z/;
     for my $key (qw(VICE VICE_DATA_DIR VICE_KERNAL VICE_BASIC VICE_CHARGEN)) {
         next if $ENV{$key} && (-e $ENV{$key});
         BAIL_OUT("required emulator prerequisite missing: $key") if $ENV{REQUIRE_EMULATOR};
