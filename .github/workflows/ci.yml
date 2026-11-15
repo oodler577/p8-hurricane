@@ -1,0 +1,107 @@
+name: C64 torture suite
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  host:
+    name: Host utilities and workflow checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install checks
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y perl shellcheck
+          go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.7
+      - name: Perl and shell syntax
+        run: |
+          find tools t -type f \( -name '*.pl' -o -name '*.pm' -o -name '*.t' \) -print0 |
+            xargs -0 -n1 perl -I t/lib -c
+          shellcheck tools/*.sh
+          "$(go env GOPATH)/bin/actionlint"
+      - name: Test disk builder adversarially
+        run: prove -v t/04-host.t
+
+  c64:
+    name: Prog8 ${{ matrix.compiler }} / ${{ matrix.video }} / ${{ matrix.drive }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: ['12.3.5', '14.0-BETA3']
+        video: [pal, ntsc]
+        drive: [filesystem, '1541']
+    env:
+      PROG8_VERSION: ${{ matrix.compiler }}
+      VICE_VIDEO: ${{ matrix.video }}
+      VICE_DRIVE: ${{ matrix.drive }}
+      VICE_SEED: 577
+      REQUIRE_EMULATOR: 1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install native test tools
+        run: |
+          sudo add-apt-repository -y multiverse
+          sudo apt-get update
+          sudo apt-get install -y 64tass vice perl
+      - name: Fetch and verify compiler and ROMs
+        run: ./tools/ci-setup.sh
+      - name: Build application and compiled test programs
+        run: |
+          . build/tools/env.sh
+          ./tools/build.sh --tests
+      - name: Prove deterministic application and disk builds
+        run: |
+          . build/tools/env.sh
+          cp build/hurricane.prg build/first.prg
+          cp build/hurricane.d64 build/first.d64
+          ./tools/build.sh
+          cmp build/first.prg build/hurricane.prg
+          cmp build/first.d64 build/hurricane.d64
+      - name: Execute C64 emulator and host TAP suites
+        run: |
+          . build/tools/env.sh
+          mkdir -p build/test-results
+          set -o pipefail
+          ./tools/test-vm.sh | tee build/test-results/prove.tap
+      - name: Preserve diagnostics and playable disk
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c64-${{ matrix.compiler }}-${{ matrix.video }}-${{ matrix.drive }}
+          path: |
+            build/hurricane.prg
+            build/hurricane.d64
+            build/test-results/
+          if-no-files-found: error
+          retention-days: 14
+
+  complete:
+    name: All C64 checks passed
+    if: always()
+    needs: [host, c64]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Require every job to succeed
+        env:
+          HOST_RESULT: ${{ needs.host.result }}
+          C64_RESULT: ${{ needs.c64.result }}
+        run: |
+          test "$HOST_RESULT" = success
+          test "$C64_RESULT" = success
