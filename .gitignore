@@ -2,3 +2,5 @@
 /dist/
 /docs/test-results.txt
 *.swp
+/docs/screenshots/*.ram
+/core

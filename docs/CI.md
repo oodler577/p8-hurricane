@@ -13,7 +13,7 @@ GitHub Actions runs eight independent C64 configurations:
 
 The 1541-II jobs execute the drive CPU and DOS ROM with virtual-device traps disabled. They build temporary multi-file D64 images and read/write through the real KERNAL IEC routines. This matters: the initial filesystem-only suite did not expose that closing command channel 15 also closes the drive's open data channels. The production save routine now keeps channel 15 open until output is closed.
 
-Each configuration compiles the application and four dedicated C64 test programs, repeats the application build to check byte-for-byte determinism, then runs TAP through prove. An additional host job checks Perl/shell/workflow syntax and disk construction.
+Each configuration compiles the application and five dedicated C64 test programs, repeats the application build to check byte-for-byte determinism, then runs TAP through prove. An additional host job checks Perl/shell/workflow syntax and disk construction.
 
 No emulator suite may silently skip in CI: REQUIRE_EMULATOR=1 turns missing prerequisites into a bailout. Timeouts, a missing completion breakpoint, a nonzero emulator exit, incomplete memory dumps and nonzero C64 failure counters all fail the job. The aggregate check requires both the host job and every matrix job to succeed.
 
@@ -66,3 +66,7 @@ Avoid placing undocumented tool-specific assumptions into production code just t
 A pushed v* tag runs the same full matrix and host checks. The release job waits for the aggregate success check, downloads the PAL/NTSC filesystem artifacts built by Prog8 12.3.5, and packages four clearly named PRG/D64 assets plus SHA256SUMS.txt. It publishes a GitHub Release with a job-scoped contents:write token. Failed or skipped checks prevent publication. PAL and NTSC artifacts may be identical when no machine-specific timing is needed; the release notes explicitly report that case.
 
 To prepare equivalent files on the VM after building and testing, run tools/package-release.sh v0.1.0 build build. This only prepares dist/v0.1.0; publication happens in the tag-triggered workflow. Do not move an existing release tag to a different commit.
+
+## Visual capture and attribution
+
+The stable-compiler filesystem rows also run the compiled title/chart capture fixtures under Xvfb and save native PAL/NTSC VICE screenshots in the diagnostic artifact. Artwork size/SHA-256 checks and bitmap glyph checks guard the restored map, bulletin timestamp and storm name. Every platform must preserve the original title and James R. Brown attribution; see CREDITS.md and docs/VISUALS.md.

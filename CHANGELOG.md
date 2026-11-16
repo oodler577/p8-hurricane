@@ -1,5 +1,14 @@
 # Changes
 
+## 0.1.1 — 2026-11-16
+
+- Restore the original-style title screen and adapted HUR1 map artwork, with filled land, solid grid and yellow bulletin panel.
+- Add actual PAL/NTSC VICE screen captures and artwork integrity checks.
+- Prominently credit Skipper Jim's Hurricane Tracking Chart by James R. Brown in the program menu, README and release descriptions.
+- Add shared attribution for all platforms, a provenance document, and emulator checks that the full title and author remain visible.
+- Add the credit to existing GitHub release descriptions without replacing historical binaries.
+
+
 ## 0.1.0 — 2026-11-15
 
 - Publish separately labelled PAL and NTSC PRGs and D64s with SHA-256 checksums after all CI jobs pass.

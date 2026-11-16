@@ -29,3 +29,7 @@ Internally, positions are unsigned integer tenths of degrees, winds are whole MP
 | `$c000–$c7ff` | Copied uppercase C64 character ROM font |
 
 The application uses the ordinary KERNAL disk interface on drive 8. No REU, cartridge registers, special firmware or network hardware is required.
+
+## Restored chart artwork
+
+The embedded compressed HUR1 artwork restores the original-style 110 W–50 W, 10 N–45 N chart window and bulletin panel. The broader model/import bounds are retained; outside-window observations remain available in the record but are marked off chart and do not produce a misleading clipped track segment. The conversion and source SHA-256 are recorded in data/artwork/provenance.json. No external map asset is needed at runtime.

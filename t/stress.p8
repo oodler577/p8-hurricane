@@ -47,9 +47,9 @@ main {
             report.check(abs((miles as word)-(expected.miles[i] as word))<=1)
         }
         chart.project(1100,450)
-        report.check(chart.px==0 and chart.py==8)
+        report.check(chart.px==14 and chart.py==6 and chart.visible)
         chart.project(450,50)
-        report.check(chart.px==318 and chart.py==168)
+        report.check(not chart.visible)
         chart.init()
         sys.memset($7f40,192,$a6)
         storm.clear()

@@ -1,4 +1,5 @@
 %import textio
+%import credits
 %import strings
 %import conv
 %import floats
@@ -18,6 +19,9 @@ main {
 
     sub start() {
         chart.init()
+        chart.title()
+        void txt.waitkey()
+        graphics.disable_bitmap_mode()
         void strings.copy("hf.gilbert",name)
         void strings.copy("ready",storage.error)
         repeat {
@@ -54,7 +58,8 @@ main {
         c64.EXTCOL=6
         c64.BGCOL0=6
         txt.color(1)
-        txt.print("hurricane tracking / prog8 c64\n\ninspired by skipper jim's chart\n\n")
+        txt.print("p8-hurricane / prog8 c64\n")
+        credits.show()
         txt.print("storm: ")
         txt.print(name)
         txt.print("\nobservations: ")
@@ -62,7 +67,7 @@ main {
         if storm.dirty
             txt.print("  (unsaved)")
         txt.print("\n\nl  load storm file\nn  new storm\na  add observation\ns  save as new file\nv  view / replay track\nf  disk directory\nq  quit\n\n")
-        txt.print("map: 110w to 45w, 5n to 45n\ncapacity: 128 observations\n\n")
+        txt.print("chart: 110w-50w, 10n-45n\ncapacity: 128 observations\n\n")
         txt.print(storage.error)
     }
 

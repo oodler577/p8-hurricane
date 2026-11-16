@@ -7,7 +7,7 @@ main {
     sub start() {
         chart.init()
         if storage.load("hf.gilbert") {
-            chart.draw(18)
+            chart.draw(1)
             @($02fe)=$a5
         }
 finished:

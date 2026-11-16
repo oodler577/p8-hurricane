@@ -35,11 +35,16 @@ is(ord(substr($ram,0x2fe,1)),0xa5,'Gilbert map rendered');
 is(ord(substr($ram,0xd011,1)) & 0x20,0x20,'bitmap mode enabled');
 ok(substr($ram,0x6000,8000) ne "\0"x8000,'nonempty bitmap');
 # Verify the actual ROM glyphs in the rendered observation panel.
-my $timestamp='11 AM 09 16 1988';
+my $timestamp='11 PM 09 10 1988';
 for my $i (0..length($timestamp)-1) {
     my $code=ord(substr($timestamp,$i,1));
     $code-=64 if $code>=64 && $code<=95;
-    is(substr($ram,0x6000+22*320+$i*8,8),substr($ram,0xc000+$code*8,8),"timestamp glyph $i");
+    is(substr($ram,0x6000+23*320+5*8+$i*8,8),substr($ram,0xc000+$code*8,8),"timestamp glyph $i");
+}
+my $storm_name='GILBERT';
+for my $i (0..length($storm_name)-1) {
+    my $code=ord(substr($storm_name,$i,1))-64;
+    is(substr($ram,0x6000+22*320+14*8+$i*8,8),substr($ram,0xc000+$code*8,8),"storm name glyph $i");
 }
 if ($ENV{RENDER_RAM}) {
     open my $out,'>:raw',$ENV{RENDER_RAM} or die $!;

@@ -94,6 +94,7 @@ storage {
                 }
                 if storm.count==0
                     goto bad_file
+                storm.set_name(name)
                 storm.dirty = false
                 storm.selected = 0
                 void strings.copy("loaded", error)
@@ -219,6 +220,7 @@ bad_file:
             void strings.copy("disk write failed; check drive status",error)
             return false
         }
+        storm.set_name(name)
         storm.dirty=false
         void strings.copy("saved",error)
         return true

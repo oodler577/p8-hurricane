@@ -9,3 +9,11 @@ Read README.md and docs/FORMAT.md before changes. Reserve the documented graphic
 ## Repository and VM
 
 Use master as the main branch. The development checkout is /opt/p8-hurricane on zbumj.vps.hosterdaddy.net; perform builds and C64 emulation there. Do not substitute host-language simulations for VICE execution. Read docs/CI.md before changing the CI matrix or emulator harness. CI must fail if emulation is skipped. Test PAL/NTSC, both supported Prog8 compilers, and the emulated 1541-II path when changing file I/O.
+
+## Original-program credit (all platforms)
+
+Every C64 PAL/NTSC build and every future X16 or other port must prominently display the full original title, Skipper Jim's Hurricane Tracking Chart, and the author, James R. Brown. Use the shared credits module in the title/menu UI. Preserve CREDITS.md, the README's leading attribution, and docs/RELEASE_CREDIT.md in release descriptions. Credit must be visible to users, not just in source comments. Existing release descriptions should also receive the shared attribution; do not replace historical binaries or move their tags. Read CREDITS.md before changing branding.
+
+## Visual fidelity
+
+Use the original-program photographs as the visual reference: large stacked title, orange/cyan palette, filled original coastline, solid grid and pale bulletin panel. The embedded map data is adapted original HUR1 artwork, not a new schematic drawing. Preserve its provenance manifest and artwork integrity tests. Read docs/VISUALS.md before display changes. Capture actual running screens in VICE and inspect them; compilation and data tests do not establish appearance.

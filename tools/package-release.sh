@@ -23,13 +23,16 @@ done
     sha256sum ./*.prg ./*.d64 > SHA256SUMS.txt
     sha256sum -c SHA256SUMS.txt
 )
-cat > "$out/RELEASE_NOTES.md" <<'EOF'
-Offline hurricane tracking for the Commodore 64, inspired by Skipper Jim's Hurricane Tracking Chart.
+cat docs/RELEASE_CREDIT.md > "$out/RELEASE_NOTES.md"
+printf '\n' >> "$out/RELEASE_NOTES.md"
+cat >> "$out/RELEASE_NOTES.md" <<'EOF'
+Offline hurricane tracking for the Commodore 64.
 
 Download the PAL or NTSC PRG/D64 matching your machine. Each D64 contains the program and the original 19-observation Hurricane Gilbert sample.
 
 - Load a D64 as drive 8, then enter `LOAD"HURRICANE",8,1` and `RUN`.
 - Press L, enter `HF.GILBERT`, then V to view the track.
+- Restored original-style title, map artwork and bulletin panel, with prominent James R. Brown attribution.
 - Manual observations, saving to new sequential files, stepped map playback, and city distances are included.
 - No internet/networking implementation.
 - SHA256SUMS.txt verifies all four downloadable files.

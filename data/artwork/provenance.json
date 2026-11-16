@@ -1,0 +1,9 @@
+{
+   "bitmap_sha256" : "2d09baac693738ed28fb7a0d01781bf8d506946cd7105053fe29a60ac2630b69",
+   "matrix_sha256" : "b051b9428b36eaa0311096791c868c1b27dcbc8c982a61680512b614f4a35c6c",
+   "original_author" : "James R. Brown",
+   "original_title" : "Skipper Jim's Hurricane Tracking Chart",
+   "source_file" : "HUR1 (from the user-supplied original D64)",
+   "source_sha256" : "e9eeff1c10254251a018a5ffea4b9d5ad17d82017c639ace75350d74c27536d2",
+   "transformation" : "Original bitmap expanded from multicolour, green mapped to cyan, two dominant colours retained per hires cell, PackBits compressed. No original executable code included."
+}

@@ -2,7 +2,11 @@
 
 [![C64 torture suite](https://github.com/oodler577/p8-hurricane/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/oodler577/p8-hurricane/actions/workflows/ci.yml)
 
-An offline hurricane observation logger and track viewer, inspired by **Skipper Jim's Hurricane Tracking Chart** by James R. Brown. This is new Prog8 source, with an importer for the original storm records. The supplied Gilbert observations were extracted unchanged from the uploaded disk.
+**Based on _Skipper Jim's Hurricane Tracking Chart_ by James R. Brown.**
+
+Brown's original C64 program is the foundation and inspiration for this recreation. We honor his work by carrying its storm-recording and map-playback experience forward. See [CREDITS.md](CREDITS.md).
+
+An offline hurricane observation logger and track viewer. This is new Prog8 source, with an importer for the original storm records. The supplied Gilbert observations were extracted unchanged from the uploaded disk.
 
 ## Try the first build
 
@@ -13,7 +17,7 @@ LOAD"HURRICANE",8,1
 RUN
 ```
 
-Press **L**, enter `HF.GILBERT`, then press **V** to view the track.
+Press any key at the title, then **L**, enter `HF.GILBERT`, then press **V** to view the track.
 
 | Key | Action |
 |---|---|
@@ -34,8 +38,8 @@ Saving always creates a new sequential file. Existing files are refused; use ano
 ## Current scope
 
 - Up to **128 observations** per track.
-- Map covers **110° W–45° W, 5° N–45° N**.
-- Newly drawn, schematic coastline; fixed extent and no zoom.
+- Restored chart window covers **110° W–50° W, 10° N–45° N**. The data model still accepts 110° W–45° W and 5° N–45° N; points outside the restored chart are labelled off chart.
+- Original coastline, filled land and grid adapted from HUR1; fixed extent and no zoom.
 - Great-circle distances in nautical miles to Houston, Brownsville, New Orleans and Miami city centres.
 - Gilbert fixture has **19 observations**, September 10–16, 1988.
 - No internet, networking, Ultimate command-interface calls, or external service dependency.
@@ -73,7 +77,7 @@ export VICE_CHARGEN=/path/to/chargen-901225-01.bin
 prove -v t/*.t
 ```
 
-The emulator tests run the **compiled C64 code**, checking dates, bounded numeric parsing, track limits, the original Gilbert import, save/reload, overwrite refusal, malformed import, reference city distances and map rendering. They use a temporary filesystem drive and leave the sample data untouched. `docs/gilbert-preview.png` is rendered from the tested C64 bitmap memory, not an interface mockup.
+The emulator tests run the **compiled C64 code**, checking dates, bounded numeric parsing, track limits, the original Gilbert import, save/reload, overwrite refusal, malformed import, reference city distances and map rendering. They use a temporary filesystem drive and leave the sample data untouched. `docs/gilbert-preview.png` is a native VICE capture of the tested C64 display, not an interface mockup.
 
 ## Where to extend it
 
@@ -94,4 +98,15 @@ The main branch is **master**. Development and C64 emulator validation run on th
 
 ## Downloads
 
-Published versions are on the [GitHub Releases page](https://github.com/oodler577/p8-hurricane/releases). Each release supplies PAL and NTSC PRGs and D64s, plus SHA256SUMS.txt. D64s include the Gilbert sample. In v0.1.0 the PAL/NTSC files are byte-identical because the application has no timing-specific code; each standard is tested separately. Version tags trigger the complete CI matrix before publication, using the Prog8 12.3.5 artifacts for release assets.
+Published versions are on the [GitHub Releases page](https://github.com/oodler577/p8-hurricane/releases). Each release supplies PAL and NTSC PRGs and D64s, plus SHA256SUMS.txt. D64s include the Gilbert sample. In the current release the PAL/NTSC files are byte-identical because the application has no timing-specific code; each standard is tested separately. Version tags trigger the complete CI matrix before publication, using the Prog8 12.3.5 artifacts for release assets.
+
+## Screenshots and original presentation
+
+These are native VICE captures of the running title and chart, captured on the Prog8 VM. They are not mockups or CRT-filtered recreations.
+
+![Title screen](docs/screenshots/title-pal.png)
+![Gilbert chart](docs/screenshots/chart-pal.png)
+
+The title follows the original's large stacked lettering, orange HURRICANE line and border, cyan lettering and PRESS ANY KEY prompt. The chart reuses the original coastline/grid artwork and restores the pale-yellow bulletin panel, filled cyan land, blue sea and white current-position marker. Some multicolour artwork cells are reduced to two dominant colours to keep sharp 40-column bulletin text. The native digital palette naturally differs from a photograph of a CRT.
+
+Both screens prominently preserve Skipper Jim's original title; James R. Brown is credited on the title screen and menu. Capture provenance and reproduction commands are in docs/VISUALS.md.

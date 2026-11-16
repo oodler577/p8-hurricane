@@ -2,6 +2,7 @@
 
 storm {
     const ubyte CAPACITY = 128
+    str storm_name = " " * 16
     ubyte count
     ubyte selected
     bool dirty
@@ -11,9 +12,18 @@ storm {
     uword timestamps = memory("timestamps",2176,0)
 
     sub clear() {
+        void strings.copy("unnamed",storm_name)
         count = 0
         selected = 0
         dirty = false
+    }
+
+    sub set_name(str name) {
+        uword source=name as uword
+        if name[0]=='h' and name[1]=='f' and name[2]=='.'
+            void strings.copy(source+3,storm_name)
+        else
+            void strings.copy(source,storm_name)
     }
 
     sub timestamp(ubyte index) -> uword {

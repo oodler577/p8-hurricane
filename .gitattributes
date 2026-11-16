@@ -3,3 +3,4 @@ data/HF.* binary
 *.png binary
 *.prg binary
 *.d64 binary
+*.rle binary

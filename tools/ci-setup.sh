@@ -29,7 +29,7 @@ for file in /usr/share/vice/C64/*; do
     [ -e "$file" ] || continue
     [ -e "$rom_dir/${file##*/}" ] || ln -s "$file" "$rom_dir/${file##*/}"
 done
-for directory in DRIVES PRINTER; do
+for directory in DRIVES PRINTER GLSL; do
     [ -e "build/tools/vice-data/$directory" ] || ln -s "/usr/share/vice/$directory" "build/tools/vice-data/$directory"
 done
 cat > build/tools/env.sh <<EOF
