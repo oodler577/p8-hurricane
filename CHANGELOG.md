@@ -1,14 +1,15 @@
 # Changes
 
-## Unreleased
+## 0.1.0 — 2026-11-15
 
+- Publish separately labelled PAL and NTSC PRGs and D64s with SHA-256 checksums after all CI jobs pass.
 - Establish master and the VM development checkout.
 - Add eight-way compiled C64 CI with real 1541-II emulation, strict prerequisites, deterministic builds and failure artifacts.
 - Add parser, calendar, numeric, model, map, geographic, disk-builder and application keyboard stress tests.
 - Fix command-channel lifetime during saving: closing channel 15 prematurely closed the 1541 output file.
 
 
-## 0.1.0 — 2026-11-15
+### Initial offline build
 
 - First offline Prog8/C64 build inspired by Skipper Jim's Hurricane Tracking Chart.
 - Import the original 19-point Hurricane Gilbert track.

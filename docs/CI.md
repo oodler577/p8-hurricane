@@ -60,3 +60,9 @@ VICE_VIDEO accepts pal/ntsc, VICE_DRIVE accepts filesystem/1541, and VICE_SEED c
 Both supported versions build with -noopt. Prog8 12.3.5's optimizer crashes on this source. The 14.0-BETA3 code generator also mishandles an implicit byte-to-word comparison in an early stress assertion, reading an adjacent byte as the high byte. The test checks low/high bytes explicitly; the full stored wind values are verified. Do not remove these workarounds without executing both compiler rows.
 
 Avoid placing undocumented tool-specific assumptions into production code just to make tests pass. Keep the memory map in FORMAT.md authoritative.
+
+## Releases
+
+A pushed v* tag runs the same full matrix and host checks. The release job waits for the aggregate success check, downloads the PAL/NTSC filesystem artifacts built by Prog8 12.3.5, and packages four clearly named PRG/D64 assets plus SHA256SUMS.txt. It publishes a GitHub Release with a job-scoped contents:write token. Failed or skipped checks prevent publication. PAL and NTSC artifacts may be identical when no machine-specific timing is needed; the release notes explicitly report that case.
+
+To prepare equivalent files on the VM after building and testing, run tools/package-release.sh v0.1.0 build build. This only prepares dist/v0.1.0; publication happens in the tag-triggered workflow. Do not move an existing release tag to a different commit.

@@ -2,6 +2,7 @@ name: C64 torture suite
 on:
   push:
     branches: [master]
+    tags: ['v*']
   pull_request:
   workflow_dispatch:
 
@@ -105,3 +106,37 @@ jobs:
         run: |
           test "$HOST_RESULT" = success
           test "$C64_RESULT" = success
+
+  release:
+    name: Publish PAL and NTSC release
+    if: startsWith(github.ref, 'refs/tags/v') && needs.complete.result == 'success'
+    needs: [complete, c64]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: c64-12.3.5-*-filesystem
+          path: artifacts
+      - name: Package verified PAL and NTSC files
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          ./tools/package-release.sh "$RELEASE_TAG" \
+            artifacts/c64-12.3.5-pal-filesystem \
+            artifacts/c64-12.3.5-ntsc-filesystem
+      - name: Publish release with four assets and checksums
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$RELEASE_TAG" \
+            "dist/$RELEASE_TAG/"*.prg \
+            "dist/$RELEASE_TAG/"*.d64 \
+            "dist/$RELEASE_TAG/SHA256SUMS.txt" \
+            --verify-tag --title "p8-hurricane $RELEASE_TAG" \
+            --notes-file "dist/$RELEASE_TAG/RELEASE_NOTES.md"

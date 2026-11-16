@@ -91,3 +91,7 @@ A future offline importer or Perl-backed provider should feed validated records 
 ## Repository and rigorous CI
 
 The main branch is **master**. Development and C64 emulator validation run on the Prog8 VM in /opt/p8-hurricane. See [docs/CI.md](docs/CI.md) for the eight-way compiler/video/drive matrix, 7,282-assertion C64 stress program, parser corpus, keyboard-driven application smoke test, reproducible builds and failure diagnostics. The setup script can provision the exact verified compiler and ROM set used by CI. CI artifacts contain freshly built PRG and D64 files; generated binaries and toolchains are not tracked in git.
+
+## Downloads
+
+Published versions are on the [GitHub Releases page](https://github.com/oodler577/p8-hurricane/releases). Each release supplies PAL and NTSC PRGs and D64s, plus SHA256SUMS.txt. D64s include the Gilbert sample. In v0.1.0 the PAL/NTSC files are byte-identical because the application has no timing-specific code; each standard is tested separately. Version tags trigger the complete CI matrix before publication, using the Prog8 12.3.5 artifacts for release assets.
